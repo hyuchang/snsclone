@@ -4,8 +4,12 @@ public enum SystemCode {
 
     OK(0, "OK"),
     DATA_NOT_FOUND(100, "Data Not Found"),
-    INVALID_ARGUMENTS(101, "invalid arguments"),
-    UNCAUGHT_EXCEPTION(199, "UNCAUGHT_EXCEPTION");
+    DATA_DUPLICATED(101, "Data Duplicated"),
+    INVALID_ARGUMENTS(101, "Invalid arguments"),
+    UNAUTHORIZED(102, "Unauthorized"),
+    BLOCKED(103, "Blocked"),
+
+    UNCAUGHT_EXCEPTION(199, "Uncaught exception");
     private int code;
     private String message;
 
@@ -17,6 +21,7 @@ public enum SystemCode {
     public int getCode() {
         return this.code;
     }
+
     public String getMessage() {
         return this.message;
     }
