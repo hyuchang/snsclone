@@ -1,9 +1,9 @@
-package com.huttchang.sns.user.domain;
+package com.huttchang.sns.account.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.huttchang.sns.user.dto.AccountReq;
-import com.huttchang.sns.user.dto.UserState;
+import com.huttchang.sns.account.dto.AccountReq;
+import com.huttchang.sns.account.dto.UserState;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +25,7 @@ public class User {
     @JsonIgnore
     @Column(name = "PWD")
     private String pwd;
+    @JsonIgnore
     @Column(name = "STATUS")
     private UserState status;
     @Column(name = "NICKNAME")

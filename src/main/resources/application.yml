@@ -14,6 +14,8 @@ spring:
         ddl-auto: create-drop
         use_sql_comments: true
         format_sql: true
+jwt:
+  secretKey: liilnsnsilnexampleilnnegsecretilnkeyilnnegilnlgeiilnjwtilnexllii2mpleSnsilnliiln
 logging:
   level:
     org:

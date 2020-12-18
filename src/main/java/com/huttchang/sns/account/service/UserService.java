@@ -1,9 +1,9 @@
-package com.huttchang.sns.user.service;
+package com.huttchang.sns.account.service;
 
 import com.huttchang.global.exception.DataNotFoundException;
-import com.huttchang.sns.user.domain.User;
-import com.huttchang.sns.user.dto.AccountReq;
-import com.huttchang.sns.user.repository.UserRepository;
+import com.huttchang.sns.account.domain.User;
+import com.huttchang.sns.account.dto.AccountReq;
+import com.huttchang.sns.account.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

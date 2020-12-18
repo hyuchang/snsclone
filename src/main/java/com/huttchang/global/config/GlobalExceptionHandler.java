@@ -2,8 +2,9 @@ package com.huttchang.global.config;
 
 import com.huttchang.global.exception.DataNotFoundException;
 import com.huttchang.global.exception.DuplicationException;
-import com.huttchang.global.exception.InvalidPasswordException;
-import com.huttchang.global.exception.UserBlockException;
+import com.huttchang.global.exception.UnauthorizedException;
+import com.huttchang.sns.account.exception.InvalidPasswordException;
+import com.huttchang.sns.account.exception.UserBlockException;
 import com.huttchang.global.model.ResponseBody;
 import com.huttchang.global.model.SystemCode;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class GlobalExceptionHandler {
         log.error("handleMethodUncaughtException", e);
         if (e instanceof UserBlockException) {
             return new ResponseEntity(new ResponseBody(SystemCode.BLOCKED, e.getMessage()), HttpStatus.UNAUTHORIZED);
-        } else if (e instanceof InvalidPasswordException) {
+        } else if (e instanceof InvalidPasswordException || e instanceof UnauthorizedException) {
             return new ResponseEntity(new ResponseBody(SystemCode.UNAUTHORIZED, e.getMessage()), HttpStatus.UNAUTHORIZED);
         } else if (e instanceof DuplicationException) {
             return new ResponseEntity(new ResponseBody(SystemCode.DATA_DUPLICATED, e.getMessage()), HttpStatus.BAD_REQUEST);

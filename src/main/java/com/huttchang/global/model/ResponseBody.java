@@ -1,16 +1,11 @@
 package com.huttchang.global.model;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class ResponseBody<T> {
 
     public ResponseBody(){}
-
-    public ResponseBody(SystemCode code){
-        this.code = code.getCode();
-        this.message = code.name();
-    }
 
     public ResponseBody(T t){
         this.data = t;

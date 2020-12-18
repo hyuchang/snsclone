@@ -1,10 +1,10 @@
-package com.huttchang.sns.user.controller.v1;
+package com.huttchang.sns.account.controller.v1;
 
 
 import com.huttchang.global.model.ResponseBody;
-import com.huttchang.sns.user.domain.User;
-import com.huttchang.sns.user.dto.AccountReq;
-import com.huttchang.sns.user.service.UserService;
+import com.huttchang.sns.account.domain.User;
+import com.huttchang.sns.account.dto.AccountReq;
+import com.huttchang.sns.account.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

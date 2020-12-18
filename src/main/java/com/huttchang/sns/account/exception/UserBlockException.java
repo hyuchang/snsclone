@@ -1,4 +1,4 @@
-package com.huttchang.global.exception;
+package com.huttchang.sns.account.exception;
 
 import org.springframework.http.HttpStatus;
 

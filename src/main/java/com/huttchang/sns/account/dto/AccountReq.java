@@ -1,7 +1,7 @@
-package com.huttchang.sns.user.dto;
+package com.huttchang.sns.account.dto;
 
 
-import com.huttchang.sns.user.domain.User;
+import com.huttchang.sns.account.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

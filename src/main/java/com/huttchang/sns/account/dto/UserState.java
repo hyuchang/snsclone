@@ -1,4 +1,4 @@
-package com.huttchang.sns.user.dto;
+package com.huttchang.sns.account.dto;
 
 import lombok.Getter;
 
@@ -12,6 +12,4 @@ public enum UserState {
     UserState(int value) {
         this.value = value;
     }
-
-
 }

@@ -1,13 +1,14 @@
-package com.huttchang.sns.user.service;
+package com.huttchang.sns.account.service;
 
 import com.huttchang.global.exception.DataNotFoundException;
 import com.huttchang.global.exception.DuplicationException;
-import com.huttchang.global.exception.InvalidPasswordException;
-import com.huttchang.global.exception.UserBlockException;
-import com.huttchang.sns.user.domain.User;
-import com.huttchang.sns.user.dto.AccountReq;
-import com.huttchang.sns.user.dto.UserState;
-import com.huttchang.sns.user.repository.UserRepository;
+import com.huttchang.sns.account.domain.Authorization;
+import com.huttchang.sns.account.exception.InvalidPasswordException;
+import com.huttchang.sns.account.exception.UserBlockException;
+import com.huttchang.sns.account.domain.User;
+import com.huttchang.sns.account.dto.AccountReq;
+import com.huttchang.sns.account.dto.UserState;
+import com.huttchang.sns.account.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,16 @@ public class AccountService {
 
     private final UserRepository userRepository;
 
-    public User findAccountByIdAndPw(AccountReq request) throws DataNotFoundException, UserBlockException, InvalidPasswordException  {
+    public Authorization authorization(AccountReq request) throws Exception {
+        Authorization result = new Authorization();
+        result.setUser(findAccountByIdAndPw(request));
+        result.setAccessToken("asdfsadf");
+        result.setRefreshToken("sdfasdfaaaaasdfsdf");
+        result.setExpiration(1023102030100101012L);
+        return result;
+    }
+
+    private User findAccountByIdAndPw(AccountReq request) throws DataNotFoundException, UserBlockException, InvalidPasswordException  {
         User user = userRepository.findByEmail(request.getEmail());
         if ( user == null) {
             throw new DataNotFoundException();
@@ -28,7 +38,6 @@ public class AccountService {
         if ( user.getStatus() == UserState.BLOCK) {
             throw new UserBlockException();
         }
-        /// fixme 토큰 생성
         return user;
     }
 
