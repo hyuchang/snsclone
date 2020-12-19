@@ -13,6 +13,7 @@ public class AccountReq {
     @Setter
     private long id;
     private String email;
+    @Setter
     private String pwd;
     private String nickname;
     private UserState status;

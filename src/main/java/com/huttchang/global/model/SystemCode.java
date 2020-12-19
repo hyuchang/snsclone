@@ -8,6 +8,7 @@ public enum SystemCode {
     INVALID_ARGUMENTS(101, "Invalid arguments"),
     UNAUTHORIZED(102, "Unauthorized"),
     BLOCKED(103, "Blocked"),
+    EXPIRED_TOKEN(104, "EXPIRED_TOKEN"),
 
     UNCAUGHT_EXCEPTION(199, "Uncaught exception");
     private int code;

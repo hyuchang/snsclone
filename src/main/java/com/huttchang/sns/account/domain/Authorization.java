@@ -1,11 +1,21 @@
 package com.huttchang.sns.account.domain;
 
+import com.huttchang.global.model.AuthToken;
 import lombok.Data;
 
 @Data
-public class Authorization {
-    private String accessToken;
-    private String refreshToken;
-    private long expiration;
+public class Authorization  {
+
+    private AuthToken authToken;
     private User user;
+
+    public Authorization(User user){
+        this.user = user;
+    }
+
+    public Authorization(User user, AuthToken token){
+        this.user = user;
+        this.authToken = token;
+    }
+
 }

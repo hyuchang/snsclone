@@ -1,23 +1,26 @@
 package com.huttchang.global.config;
 
+import com.huttchang.global.exception.AuthTokenExpiredException;
 import com.huttchang.global.exception.DataNotFoundException;
 import com.huttchang.global.exception.DuplicationException;
 import com.huttchang.global.exception.UnauthorizedException;
-import com.huttchang.sns.account.exception.InvalidPasswordException;
-import com.huttchang.sns.account.exception.UserBlockException;
 import com.huttchang.global.model.ResponseBody;
 import com.huttchang.global.model.SystemCode;
+import com.huttchang.sns.account.exception.InvalidPasswordException;
+import com.huttchang.sns.account.exception.UserBlockException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ResponseBody<NullPointerException>> handleMethodUncaughtException(Exception e) {
         log.error("handleMethodUncaughtException", e);
@@ -27,6 +30,8 @@ public class GlobalExceptionHandler {
             return new ResponseEntity(new ResponseBody(SystemCode.UNAUTHORIZED, e.getMessage()), HttpStatus.UNAUTHORIZED);
         } else if (e instanceof DuplicationException) {
             return new ResponseEntity(new ResponseBody(SystemCode.DATA_DUPLICATED, e.getMessage()), HttpStatus.BAD_REQUEST);
+        } else if (e instanceof AuthTokenExpiredException) {
+            return new ResponseEntity(new ResponseBody(SystemCode.EXPIRED_TOKEN, e.getMessage()), HttpStatus.BAD_REQUEST);
         } else if (e instanceof DataNotFoundException) {
             return new ResponseEntity(new ResponseBody(SystemCode.DATA_NOT_FOUND, e.getMessage()), HttpStatus.NOT_FOUND);
         } else {
