@@ -11,10 +11,13 @@ import com.huttchang.sns.account.exception.UserBlockException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.validation.UnexpectedTypeException;
 
 @Slf4j
 @RestControllerAdvice
@@ -32,6 +35,8 @@ public class GlobalExceptionHandler {
             return new ResponseEntity(new ResponseBody(SystemCode.DATA_DUPLICATED, e.getMessage()), HttpStatus.BAD_REQUEST);
         } else if (e instanceof AuthTokenExpiredException) {
             return new ResponseEntity(new ResponseBody(SystemCode.EXPIRED_TOKEN, e.getMessage()), HttpStatus.BAD_REQUEST);
+        } else if (e instanceof MethodArgumentNotValidException || e instanceof UnexpectedTypeException) {
+            return new ResponseEntity(new ResponseBody(SystemCode.INVALID_ARGUMENTS, e.getMessage()), HttpStatus.BAD_REQUEST);
         } else if (e instanceof DataNotFoundException) {
             return new ResponseEntity(new ResponseBody(SystemCode.DATA_NOT_FOUND, e.getMessage()), HttpStatus.NOT_FOUND);
         } else {

@@ -11,6 +11,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * 사용자관련 정보를 처리하는 API Controller
  */
@@ -28,7 +30,7 @@ public class UserController {
      * @throws Exception
      */
     @PostMapping("/signin")
-    public ResponseBody<Authorization> signIn(@RequestBody AccountReq request) throws Exception{
+    public ResponseBody<Authorization> signIn(@Valid @RequestBody AccountReq request) throws Exception{
         SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return new ResponseBody(userService.signIn(request));
     }
@@ -40,7 +42,7 @@ public class UserController {
      * @throws Exception
      */
     @PostMapping("/signup")
-    public ResponseBody<User> signUp(@RequestBody AccountReq request) throws Exception{
+    public ResponseBody<User> signUp(@Valid @RequestBody AccountReq request) throws Exception{
         return new ResponseBody(userService.createAccount(request));
     }
 

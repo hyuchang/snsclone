@@ -25,15 +25,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private String email;
     @JsonIgnore
-    @Column(name = "PWD")
+    @Column(name = "pwd")
     private String pwd;
     @JsonIgnore
-    @Column(name = "STATUS")
+    @Column(name = "status")
     private UserState status;
-    @Column(name = "NICKNAME")
+    @Column(name = "nickname")
     private String nickname;
     @JsonIgnore
     @Transient

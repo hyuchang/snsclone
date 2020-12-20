@@ -1,4 +1,4 @@
-package com.huttchang.sns.post.controller;
+package com.huttchang.sns.post.controller.v1;
 
 
 import com.huttchang.global.model.ResponseBody;
@@ -11,8 +11,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("v1/posts")
-public class PostController {
+@RequestMapping("v1/post/{postId}/comments")
+public class PostCommentsController {
 
     /**
      * 나와, 내 팔로우의 포스트 모두 리스트업,
@@ -22,38 +22,28 @@ public class PostController {
      *  포스팅 날짜 desc순
      * @return
      */
-    @GetMapping
-    public ResponseBody<List<PostDto>> getPosts(){
-        return null;
-    }
-
-    @GetMapping("/{id}")
-    public ResponseBody<PostDto> getPostById(@PathVariable long id){
-        return null;
-    }
-
     @PostMapping
-    public ResponseBody<PostDto> createPost(){
+    public ResponseBody<PostDto> createComment(@PathVariable long postId){
         return null;
     }
 
-    @PutMapping
-    public ResponseBody<PostDto> modifyPost(){
+    @PutMapping("{id}")
+    public ResponseBody<PostDto> modifyComment(@PathVariable long postId, @PathVariable long commentId){
         return null;
     }
 
-    @DeleteMapping
-    public ResponseBody<PostDto> deletePost(){
+    @DeleteMapping("{id}")
+    public ResponseBody<PostDto> deleteComment(@PathVariable long postId, @PathVariable long commentId){
         return null;
     }
 
     @PostMapping("{id}/like")
-    public ResponseBody<PostDto> likePost(@PathVariable long id){
+    public ResponseBody<PostDto> likeComment(@PathVariable long id, @PathVariable long commentId){
         return null;
     }
 
     @PostMapping("{id}/unlike")
-    public ResponseBody<PostDto> unlikePost(@PathVariable long id){
+    public Post unlikeComment(@PathVariable long id, @PathVariable long commentId){
         return null;
     }
 
