@@ -1,5 +1,6 @@
 package com.huttchang.sns.post.dto;
 
+import com.huttchang.global.model.Pagination;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -9,7 +10,7 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-public class PostCommentDto {
+public class PostCommentDto extends Pagination {
 
     private Long id;
     private Long userId;

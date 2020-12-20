@@ -2,6 +2,7 @@ package com.huttchang.sns.account.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.huttchang.global.model.ACL;
 import com.huttchang.sns.account.dto.AccountReq;
 import com.huttchang.sns.account.dto.UserState;
 import lombok.Builder;
@@ -35,6 +36,8 @@ public class User implements UserDetails {
     private UserState status;
     @Column(name = "nickname")
     private String nickname;
+    @Column(name = "acl")
+    private ACL acl = ACL.PUBLIC;
     @JsonIgnore
     @Transient
     private List<String> roleList = new ArrayList<>();

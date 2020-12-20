@@ -1,4 +1,4 @@
-package com.huttchang.sns.post.dto;
+package com.huttchang.global.model;
 
 import lombok.Data;
 

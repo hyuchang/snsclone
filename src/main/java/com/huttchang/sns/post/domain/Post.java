@@ -1,12 +1,15 @@
 package com.huttchang.sns.post.domain;
 
+import com.huttchang.global.model.ACL;
 import com.huttchang.sns.post.dto.PostDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table
@@ -21,11 +24,13 @@ public class Post {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
+    @ColumnDefault("0")
     @Column(name = "like_cnt")
-    private Long likeCnt = 0L;
+    private long likeCnt = 0L;
 
+    @ColumnDefault("0")
     @Column(name = "comment_cnt")
-    private Long commentCnt = 0L;
+    private long commentCnt = 0L;
 
     @Column(name = "create_at")
     private Date createAt;
@@ -33,15 +38,29 @@ public class Post {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "acl")
+    private ACL acl = ACL.PUBLIC;
+
+    @OneToMany(mappedBy = "postId")
+    @OrderBy("create_at desc")
+    private List<PostComment> commentList;
+
+    @OneToMany(mappedBy = "postId")
+    @OrderBy("id desc")
+    private List<PostImage> imageList;
+
     @Builder
-    public Post(Long id, Long userId, Long likeCnt, Long commentCnt, Date createAt, String description) {
+    public Post(Long id, Long userId, long likeCnt, long commentCnt, Date createAt, String description, List<PostComment> commentList, List<PostImage> imageList) {
         this.id = id;
         this.userId = userId;
         this.likeCnt = likeCnt;
         this.commentCnt = commentCnt;
         this.createAt = createAt;
         this.description = description;
+        this.commentList = commentList;
+        this.imageList = imageList;
     }
+
 
     public PostDto toDto() {
         return PostDto.builder()
@@ -51,6 +70,8 @@ public class Post {
                 .commentCnt(getCommentCnt())
                 .createAt(getCreateAt())
                 .description(getDescription())
+                .commentList(getCommentList())
+                .imageList(getImageList())
                 .build();
     }
 

@@ -37,12 +37,8 @@ public class PostService {
     private final PostLikeRepository postLikeRepository;
     private final FileUploadService fileUploadService;
 
-    public Post findPost(User user, PostReq req) throws Exception {
-        // fixme 페이지네이션
-        // 친구 요청 순
-        // 라이크 순
-
-        return null;
+    public List<Post> findPostByRelationShip(PostReq req) throws Exception {
+        return postRepository.findByRelationShip(req.getUserId(), req.getOffset(), req.getLimit());
     }
 
     @Transactional
