@@ -25,7 +25,8 @@ public class PostController {
 
     @PostMapping
     public ResponseBody<PostDto> createPost(@AuthenticationPrincipal User principal, @Valid PostReq req) throws Exception {
-        return new ResponseBody(postService.createPost(principal, req).toDto());
+        req.setUserId(principal.getId());
+        return new ResponseBody(postService.createPost(req).toDto());
     }
 
     /**
@@ -46,6 +47,18 @@ public class PostController {
         return null;
     }
 
+    @PostMapping("{id}/like")
+    public ResponseBody<Boolean> likePost(@AuthenticationPrincipal User principal, @PathVariable long id) throws Exception {
+        return new ResponseBody(postService.likePost(principal.getId(), id));
+    }
+
+    @PostMapping("{id}/unlike")
+    public ResponseBody<Boolean> unlikePost(@AuthenticationPrincipal User principal, @PathVariable long id) throws Exception{
+        return new ResponseBody(postService.unlikePost(principal.getId(), id));
+    }
+
+
+
     @PutMapping
     public ResponseBody<PostDto> modifyPost(@AuthenticationPrincipal User principal, @RequestBody PostReq req){
         return null;
@@ -56,14 +69,6 @@ public class PostController {
         return null;
     }
 
-    @PostMapping("{id}/like")
-    public ResponseBody<Boolean> likePost(@AuthenticationPrincipal User principal, @PathVariable long id) throws Exception {
-        return new ResponseBody(postService.likePost(principal, id));
-    }
 
-    @PostMapping("{id}/unlike")
-    public ResponseBody<Boolean> unlikePost(@AuthenticationPrincipal User principal, @PathVariable long id) throws Exception{
-        return new ResponseBody(postService.unlikePost(principal, id));
-    }
 
 }

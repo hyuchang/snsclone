@@ -42,6 +42,7 @@ public class Post {
         this.createAt = createAt;
         this.description = description;
     }
+
     public PostDto toDto() {
         return PostDto.builder()
                 .id(getId())
@@ -53,11 +54,20 @@ public class Post {
                 .build();
     }
 
-    public void like(){
+    public void incrementlikeCnt() {
         this.likeCnt++;
     }
-    public void unlike(){
-        this.likeCnt = this.likeCnt-1 < 0 ? 0 : --this.likeCnt;
+
+    public void decrementlikeCnt() {
+        this.likeCnt = this.likeCnt - 1 < 0 ? 0 : this.likeCnt--;
+    }
+
+    public void incrementCommentCnt() {
+        this.commentCnt++;
+    }
+
+    public void decrementCommentCnt() {
+        this.commentCnt = this.commentCnt - 1 < 0 ? 0 : this.commentCnt--;
     }
 
 }

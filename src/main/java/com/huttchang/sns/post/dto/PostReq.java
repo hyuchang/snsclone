@@ -10,5 +10,4 @@ import java.util.List;
 @Getter
 public class PostReq extends PostDto {
     private List<MultipartFile> images;
-
 }
