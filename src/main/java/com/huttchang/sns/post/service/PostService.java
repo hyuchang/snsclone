@@ -4,6 +4,8 @@ import com.huttchang.global.exception.DataNotFoundException;
 import com.huttchang.global.exception.DuplicationException;
 import com.huttchang.global.exception.InvalidRequestException;
 import com.huttchang.sns.account.domain.User;
+import com.huttchang.sns.notification.model.NotificationReq;
+import com.huttchang.sns.notification.model.NotificationType;
 import com.huttchang.sns.notification.service.NotificationService;
 import com.huttchang.sns.post.domain.Post;
 import com.huttchang.sns.post.domain.PostComment;
@@ -79,6 +81,15 @@ public class PostService {
         post.incrementlikeCnt();
         // 좋아요 회수 증가 저장
         postRepository.save(post);
+        // 노티 메세지 저장
+        notificationService.createNotification(
+            NotificationReq.builder()
+                .postId(postId)
+                .toUserId(post.getUserId())
+                .fromUserId(userId)
+                .type(NotificationType.LIKE)
+                .build()
+        );
         // 좋아요 결과 반환
         return true;
     }
@@ -113,6 +124,15 @@ public class PostService {
         post.incrementCommentCnt();
         // 댓글 수 증가 저장
         postRepository.save(post);
+        // 노티 메세지 저장
+        notificationService.createNotification(
+                NotificationReq.builder()
+                        .postId(req.getPostId())
+                        .toUserId(post.getUserId())
+                        .fromUserId(req.getUserId())
+                        .type(NotificationType.COMMENT)
+                        .build()
+        );
         return true;
     }
 

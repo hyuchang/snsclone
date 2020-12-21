@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table
@@ -29,15 +30,18 @@ public class Notification {
     private NotificationType type;
     @Column(name = "DESCRIPTION")
     private String description;
+    @Column(name = "CREATE_AT")
+    private Date createAt;
 
     @Builder
-    public Notification(Long postId, Long toUserId, Long fromUserId, boolean isRead, NotificationType type, String description) {
+    public Notification(Long postId, Long toUserId, Long fromUserId, boolean isRead, NotificationType type, String description, Date createAt) {
         this.postId = postId;
         this.toUserId = toUserId;
         this.fromUserId = fromUserId;
         this.isRead = isRead;
         this.type = type;
         this.description = description;
+        this.createAt = createAt;
     }
 
     public void read(){

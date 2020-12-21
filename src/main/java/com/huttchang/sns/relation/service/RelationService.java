@@ -4,6 +4,10 @@ import com.huttchang.global.exception.DataNotFoundException;
 import com.huttchang.global.exception.InvalidRequestException;
 import com.huttchang.sns.account.domain.User;
 import com.huttchang.sns.account.dto.AccountReq;
+import com.huttchang.sns.notification.domain.Notification;
+import com.huttchang.sns.notification.model.NotificationReq;
+import com.huttchang.sns.notification.model.NotificationType;
+import com.huttchang.sns.notification.service.NotificationService;
 import com.huttchang.sns.relation.domain.Relation;
 import com.huttchang.sns.relation.domain.RelationId;
 import com.huttchang.sns.relation.domain.RelationUser;
@@ -23,6 +27,7 @@ public class RelationService {
 
     private final RelationRepository relationRepository;
     private final SimpleRelationRepository simpleRelationRepository;
+    private final NotificationService notificationService;
 
     /**
      * 친구 관계의 유저 불러오는 로직
@@ -48,6 +53,8 @@ public class RelationService {
                 = simpleRelationRepository.findById(new RelationId(req.getRequesterId(), req.getSomeoneId()))
                 .orElseThrow(DataNotFoundException::new);
 
+        NotificationReq.NotificationReqBuilder messageBuilder = NotificationReq.builder();
+
         // 수락일 경우만 상태 변경
         if (req.getStatus() == RelationState.ACCEPTED) {
             // 이미 수락 상태인경우도 잘못된 요청응답
@@ -59,7 +66,13 @@ public class RelationService {
 
             // 관계 상태 변경
             relation.changeStatusAndRelatedAt(req.getStatus());
+            // 상태 변경 저장
             simpleRelationRepository.save(relation);
+            // 노티메세지 발송
+            notificationService.createNotification(messageBuilder
+                    .toUserId(req.getRequesterId())
+                    .fromUserId(req.getSomeoneId())
+                    .type(NotificationType.RELATION_ACCEPTED).build());
         } else {
             // 신청 취소 등의 요청은 내가 요청자 일때 가능
             if (req.getRequesterId() != req.getUserId()) {
@@ -68,6 +81,11 @@ public class RelationService {
             // 신청 시
             if (req.getStatus() == RelationState.REQUESTED) {
                 relation.changeStatusAndRequestAt(req.getStatus());
+                notificationService.createNotification(messageBuilder
+                        .toUserId(req.getSomeoneId())
+                        .fromUserId(req.getRequesterId())
+                        .type(NotificationType.RELATION_REQUESTED).build());
+
             } else {
                 // 그 외엔 삭제
                 simpleRelationRepository.deleteById(new RelationId(req.getRequesterId(), req.getSomeoneId()));
