@@ -66,7 +66,7 @@ public class NotificationService {
         notificationRepository.save(req.toEntity());
     }
 
-    public void readNotification(NotificationReq req) throws DataNotFoundException {
+    public boolean readNotification(NotificationReq req) throws DataNotFoundException {
         // 알림메세지의 조회
         Notification notification
                 = notificationRepository.findById(req.getId()).orElseThrow(DataNotFoundException::new);
@@ -74,5 +74,6 @@ public class NotificationService {
         notification.read();
         // 읽은 상태 저장
         notificationRepository.save(notification);
+        return true;
     }
 }

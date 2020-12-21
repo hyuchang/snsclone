@@ -28,6 +28,11 @@ public class NotificationReq extends Pagination {
         this.type = type;
     }
 
+    public NotificationReq(Long id, Long toUserId) {
+        this.id = id;
+        this.toUserId = toUserId;
+    }
+
     public Notification toEntity(){
         return Notification.builder()
                 .postId(getPostId())

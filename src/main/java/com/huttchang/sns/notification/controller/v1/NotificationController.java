@@ -9,9 +9,7 @@ import com.huttchang.sns.post.dto.PostDto;
 import com.huttchang.sns.post.dto.PostReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +23,12 @@ public class NotificationController {
     @GetMapping
     public ResponseBody<List<Notification>> getNotification(@AuthenticationPrincipal User principal, NotificationReq req) throws Exception {
         req.setToUserId(principal.getId());
-        return new ResponseBody<>(notificationService.findNotificationsByMe(req));
+        return new ResponseBody(notificationService.findNotificationsByMe(req));
+    }
+
+    @PutMapping("{id}")
+    public ResponseBody<Boolean> readNotification(@PathVariable Long id, @AuthenticationPrincipal User principal) throws Exception {
+        return new ResponseBody(notificationService.readNotification(new NotificationReq(id,principal.getId())));
     }
 
 }
