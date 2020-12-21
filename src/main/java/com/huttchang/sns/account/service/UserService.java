@@ -2,6 +2,7 @@ package com.huttchang.sns.account.service;
 
 import com.huttchang.global.exception.DataNotFoundException;
 import com.huttchang.global.exception.DuplicationException;
+import com.huttchang.global.provider.AESUtils;
 import com.huttchang.sns.account.domain.Authorization;
 import com.huttchang.sns.account.domain.User;
 import com.huttchang.sns.account.dto.AccountReq;
@@ -35,6 +36,9 @@ public class UserService implements UserDetailsService {
      */
     public Authorization signIn(AccountReq request) throws Exception {
         // 해당 유저가 존재 하는지 찾는다
+//
+        request.setPwd(AESUtils.decrypt(request.getPwd()));
+        request.setEmail(AESUtils.decrypt(request.getEmail()));
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(DataNotFoundException::new);
 
@@ -59,7 +63,10 @@ public class UserService implements UserDetailsService {
      * @throws DuplicationException 계정중복에 대한 내용
      */
     @Transactional
-    public User createAccount(AccountReq request) throws DuplicationException {
+    public User createAccount(AccountReq request) throws DuplicationException, Exception {
+        request.setPwd(AESUtils.decrypt(request.getPwd()));
+        request.setEmail(AESUtils.decrypt(request.getEmail()));
+
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new DuplicationException("Email");
         }

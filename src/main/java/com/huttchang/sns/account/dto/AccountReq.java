@@ -17,12 +17,13 @@ public class AccountReq extends Pagination {
 
     @Setter
     private long id;
+    @Setter
     @NotEmpty
-    @Length(min = 5, max = 100)
+    @Length(min = 10)
     private String email;
     @NotEmpty
     @Setter
-    @Length(min = 8, max = 20)
+    @Length(min = 8)
     private String pwd;
     private String nickname;
     private UserState status;

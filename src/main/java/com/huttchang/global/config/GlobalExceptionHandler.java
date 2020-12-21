@@ -26,17 +26,17 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ResponseBody<NullPointerException>> handleMethodUncaughtException(Exception e) {
         log.error("handleMethodUncaughtException", e);
         if (e instanceof UserBlockException) {
-            return new ResponseEntity(new ResponseBody(SystemCode.BLOCKED, e.getMessage()), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(new ResponseBody(SystemCode.BLOCKED, e.getMessage()), HttpStatus.OK);
         } else if (e instanceof InvalidPasswordException || e instanceof UnauthorizedException) {
-            return new ResponseEntity(new ResponseBody(SystemCode.UNAUTHORIZED, e.getMessage()), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(new ResponseBody(SystemCode.UNAUTHORIZED, e.getMessage()), HttpStatus.OK);
         } else if (e instanceof DuplicationException) {
-            return new ResponseEntity(new ResponseBody(SystemCode.DATA_DUPLICATED, e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ResponseBody(SystemCode.DATA_DUPLICATED, e.getMessage()), HttpStatus.OK);
         } else if (e instanceof AuthTokenExpiredException) {
-            return new ResponseEntity(new ResponseBody(SystemCode.EXPIRED_TOKEN, e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ResponseBody(SystemCode.EXPIRED_TOKEN, e.getMessage()), HttpStatus.OK);
         } else if (e instanceof MethodArgumentNotValidException || e instanceof UnexpectedTypeException) {
-            return new ResponseEntity(new ResponseBody(SystemCode.INVALID_ARGUMENTS, e.getMessage()), HttpStatus.BAD_REQUEST);
-        } else if (e instanceof NoHandlerFoundException) {
-            return new ResponseEntity(new ResponseBody(SystemCode.DATA_NOT_FOUND, e.getMessage()), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new ResponseBody(SystemCode.INVALID_ARGUMENTS, e.getMessage()), HttpStatus.OK);
+        } else if (e instanceof DataNotFoundException) {
+            return new ResponseEntity(new ResponseBody(SystemCode.DATA_NOT_FOUND, e.getMessage()), HttpStatus.OK);
         } else {
             return new ResponseEntity(new ResponseBody(SystemCode.UNCAUGHT_EXCEPTION, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -1,6 +1,5 @@
-package com.huttchang.global;
+package com.huttchang.global.provider;
 
-import com.huttchang.global.model.Upload;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

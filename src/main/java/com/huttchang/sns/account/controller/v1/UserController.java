@@ -31,7 +31,6 @@ public class UserController {
      */
     @PostMapping("/signin")
     public ResponseBody<Authorization> signIn(@Valid @RequestBody AccountReq request) throws Exception{
-        SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return new ResponseBody(userService.signIn(request));
     }
 

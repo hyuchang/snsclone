@@ -1,6 +1,6 @@
 package com.huttchang.sns.post.service;
 
-import com.huttchang.global.UploadService;
+import com.huttchang.global.provider.UploadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
