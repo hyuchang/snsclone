@@ -17,4 +17,12 @@ public class RelationUser {
     private String email, nickname;
     private RelationState status;
 
+    public String getNickname() {
+        try{
+            return email.split("@")[0];
+        }catch (Exception e){
+            return nickname;
+        }
+
+    }
 }

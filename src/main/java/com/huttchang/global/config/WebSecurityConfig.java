@@ -6,6 +6,7 @@ import com.huttchang.global.provider.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -33,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .authorizeRequests()
                 .antMatchers("/v*/users/sign*").permitAll()
                 .antMatchers("/h2-*/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().sameOrigin()
@@ -42,11 +44,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .addFilterBefore(new JWTFilter(jwtAuthTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        // 개발, 로컬환경이라 cors해제 하여 작업합니다.
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8081","http://localhost:8180");
-    }
 
 }

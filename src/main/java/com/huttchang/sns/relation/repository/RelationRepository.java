@@ -22,7 +22,7 @@ public interface RelationRepository extends JpaRepository<Relation, RelationId> 
      * @return
      */
     @Query(nativeQuery = true, value =
-        "select\n" +
+        "select distinct \n" +
         "    r.requester_id,r.someone_id,u.id, u.email, u.nickname, r.status, r.related_at, r.request_at \n" +
         "from Users u inner join RELATION r \n" +
         "on (u.ID = r.SOMEONE_ID or u.ID = r.REQUESTER_ID) and u.id != ?1\n" +

@@ -1,5 +1,6 @@
 package com.huttchang.sns.post.domain;
 
+import com.huttchang.sns.relation.domain.RelationUser;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,10 @@ public class PostComment {
 
     @Column(name = "create_at", nullable = false)
     private Date createAt = new Date();
+
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private RelationUser userInfo;
 
     @Builder
     public PostComment(Long userId, Long postId, String comment) {

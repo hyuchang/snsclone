@@ -30,11 +30,13 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "    (\n" +
             "        select\n" +
             "            SOMEONE_ID user_id\n" +
-            "        from RELATION where STATUS = 1 and (REQUESTER_ID = ?1 or SOMEONE_ID = ?1)\n" +
+            "        from RELATION where STATUS = 2 and (REQUESTER_ID = ?1 or SOMEONE_ID = ?1)\n" +
             "        union\n" +
             "        select\n" +
             "            REQUESTER_ID user_id\n" +
-            "        from RELATION where STATUS = 1 and (REQUESTER_ID = ?1 or SOMEONE_ID = ?1)\n" +
+            "        from RELATION where STATUS = 2 and (REQUESTER_ID = ?1 or SOMEONE_ID = ?1)\n" +
+                    "union\n" +
+                    "select ?1\n" +
             "    ) users on p.USER_ID = users.user_id\n" +
             "order by p.ID desc\n" +
             "OFFSET ?2 ROWS\n" +

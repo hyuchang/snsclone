@@ -1,7 +1,9 @@
 package com.huttchang.sns.post.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.huttchang.global.model.ACL;
 import com.huttchang.sns.post.dto.PostDto;
+import com.huttchang.sns.relation.domain.RelationUser;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,8 +51,17 @@ public class Post {
     @OrderBy("id desc")
     private List<PostImage> imageList;
 
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private RelationUser userInfo;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "postId")
+    private List<PostLike> likeList;
+
     @Builder
-    public Post(Long id, Long userId, long likeCnt, long commentCnt, Date createAt, String description, List<PostComment> commentList, List<PostImage> imageList) {
+    public Post(Long id, Long userId, long likeCnt, long commentCnt, Date createAt,
+                String description, List<PostComment> commentList, List<PostImage> imageList) {
         this.id = id;
         this.userId = userId;
         this.likeCnt = likeCnt;
@@ -61,7 +72,10 @@ public class Post {
         this.imageList = imageList;
     }
 
+    public boolean isLike(){
+        return this.likeList.stream().filter(x->x.getUserId() == this.userId).count()>0;
 
+    }
     public PostDto toDto() {
         return PostDto.builder()
                 .id(getId())
