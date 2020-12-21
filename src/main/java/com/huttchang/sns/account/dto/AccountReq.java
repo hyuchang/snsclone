@@ -1,6 +1,7 @@
 package com.huttchang.sns.account.dto;
 
 
+import com.huttchang.global.model.ACL;
 import com.huttchang.global.model.Pagination;
 import com.huttchang.sns.account.domain.User;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class AccountReq extends Pagination {
     private String pwd;
     private String nickname;
     private UserState status;
+    private ACL acl = ACL.PUBLIC;
 
     public User toEntity() {
         return User.builder()
