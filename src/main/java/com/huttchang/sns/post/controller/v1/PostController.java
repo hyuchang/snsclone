@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("v1/posts")
-
 public class PostController {
 
     private final PostService postService;
@@ -62,7 +61,6 @@ public class PostController {
     public ResponseBody<Boolean> unlikePost(@AuthenticationPrincipal User principal, @PathVariable long id) throws Exception {
         return new ResponseBody(postService.unlikePost(principal.getId(), id));
     }
-
 
     @PutMapping
     public ResponseBody<PostDto> modifyPost(@AuthenticationPrincipal User principal, @RequestBody PostReq req) {

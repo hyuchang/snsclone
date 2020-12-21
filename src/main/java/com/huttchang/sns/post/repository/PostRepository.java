@@ -10,26 +10,36 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query(nativeQuery = true,value = "select ID,\n" +
-            "USER_ID,\n" +
-            "LIKE_CNT,\n" +
-            "COMMENT_CNT,\n" +
-            "CREATE_AT,\n" +
-            "DESCRIPTION " +
+    /**
+     * 나와 친구 관계인 사람의 게시물을 가져오는 쿼리
+     * @param userId
+     * @param offset
+     * @param limit
+     * @return
+     */
+    @Query(nativeQuery = true,value =
+            "select\n" +
+            "    p.ID,\n" +
+            "    p.USER_ID,\n" +
+            "    p.LIKE_CNT,\n" +
+            "    p.COMMENT_CNT,\n" +
+            "    p.CREATE_AT,\n" +
+            "    p.DESCRIPTION,\n" +
+            "    p.ACL\n" +
             "from post p inner join\n" +
-            "    (select\n" +
-            "        SOMEONE_ID userid\n" +
-            "    from RELATION where STATUS = 1 and REQUESTER_ID = ?1 or SOMEONE_ID = ?1\n" +
-            "    union all\n" +
-            "    select\n" +
-            "        REQUESTER_ID userid\n" +
-            "    from RELATION where STATUS = 1 and SOMEONE_ID = ?1 or SOMEONE_ID = ?1\n" +
-            "        ) userId on p.USER_ID = userId.userid\n" +
-            "order by ID desc\n" +
+            "    (\n" +
+            "        select\n" +
+            "            SOMEONE_ID user_id\n" +
+            "        from RELATION where STATUS = 1 and (REQUESTER_ID = ?1 or SOMEONE_ID = ?1)\n" +
+            "        union\n" +
+            "        select\n" +
+            "            REQUESTER_ID user_id\n" +
+            "        from RELATION where STATUS = 1 and (REQUESTER_ID = ?1 or SOMEONE_ID = ?1)\n" +
+            "    ) users on p.USER_ID = users.user_id\n" +
+            "order by p.ID desc\n" +
             "OFFSET ?2 ROWS\n" +
-            "    FETCH NEXT ?3 ROWS ONLY\n" +
-            "\n" +
-            "\n")
-    List<Post> findByRelationShip(Long userId, int offset, int limit);
-    // 지정해서 찍고 들어간
+            "FETCH NEXT ?3 ROWS ONLY")
+    List<Post> findPostByRelationShip(Long userId, int offset, int limit);
+
+    //
 }

@@ -30,6 +30,7 @@ public class PostService {
 
     @Value("${path.upload_path}")
     private String uploadPath;
+
     private static final String POST_PATH = "/posts";
     private final PostRepository postRepository;
     private final PostImageRepository postImageRepository;
@@ -38,7 +39,7 @@ public class PostService {
     private final FileUploadService fileUploadService;
 
     public List<Post> findPostByRelationShip(PostReq req) throws Exception {
-        return postRepository.findByRelationShip(req.getUserId(), req.getOffset(), req.getLimit());
+        return postRepository.findPostByRelationShip(req.getUserId(), req.getOffset(), req.getLimit());
     }
 
     @Transactional

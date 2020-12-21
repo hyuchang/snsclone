@@ -8,7 +8,7 @@ public class Pagination {
     private int offset = 0;
     private int limit = 30;
 
-    public int getOffset(){
+    public int getOffset() {
         return page == 1 ? 0 : (limit * (page - 1));
     }
 }
