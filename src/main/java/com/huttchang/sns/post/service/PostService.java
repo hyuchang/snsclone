@@ -4,6 +4,7 @@ import com.huttchang.global.exception.DataNotFoundException;
 import com.huttchang.global.exception.DuplicationException;
 import com.huttchang.global.exception.InvalidRequestException;
 import com.huttchang.sns.account.domain.User;
+import com.huttchang.sns.notification.service.NotificationService;
 import com.huttchang.sns.post.domain.Post;
 import com.huttchang.sns.post.domain.PostComment;
 import com.huttchang.sns.post.domain.PostImage;
@@ -37,6 +38,7 @@ public class PostService {
     private final PostCommentRepository postCommentRepository;
     private final PostLikeRepository postLikeRepository;
     private final FileUploadService fileUploadService;
+    private final NotificationService notificationService;
 
     public List<Post> findPostByRelationShip(PostReq req) throws Exception {
         return postRepository.findPostByRelationShip(req.getUserId(), req.getOffset(), req.getLimit());

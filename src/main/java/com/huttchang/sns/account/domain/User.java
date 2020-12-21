@@ -27,7 +27,7 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Long id;
     @Column(name = "email")
-    private String email;
+    private String email = "";
     @JsonIgnore
     @Column(name = "pwd")
     private String pwd;
@@ -67,6 +67,15 @@ public class User implements UserDetails {
         return this.getRoleList().stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+    }
+
+    public String getNickname() {
+        try{
+            return email.split("@")[0];
+        }catch (Exception e){
+            return email;
+        }
+
     }
 
     @JsonIgnore
