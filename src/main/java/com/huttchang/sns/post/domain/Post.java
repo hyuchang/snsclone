@@ -55,7 +55,6 @@ public class Post {
     @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     private RelationUser userInfo;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "postId")
     private List<PostLike> likeList;
 
@@ -72,10 +71,6 @@ public class Post {
         this.imageList = imageList;
     }
 
-    public boolean isLike(){
-        return this.likeList.stream().filter(x->x.getUserId() == this.userId).count()>0;
-
-    }
     public PostDto toDto() {
         return PostDto.builder()
                 .id(getId())
@@ -94,7 +89,7 @@ public class Post {
     }
 
     public void decrementlikeCnt() {
-        this.likeCnt = this.likeCnt - 1 < 0 ? 0 : this.likeCnt--;
+        this.likeCnt = this.likeCnt - 1 < 0 ? 0 : --this.likeCnt;
     }
 
     public void incrementCommentCnt() {

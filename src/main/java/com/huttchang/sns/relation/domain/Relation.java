@@ -21,7 +21,6 @@ public class Relation {
     private Long someoneId;
     @Column(name = "status")
     private RelationState status;
-
     @Column(name = "request_at")
     private Date requestAt;
     @Column(name = "related_at")

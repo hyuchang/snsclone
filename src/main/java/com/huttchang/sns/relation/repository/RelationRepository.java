@@ -25,7 +25,7 @@ public interface RelationRepository extends JpaRepository<Relation, RelationId> 
         "select distinct \n" +
         "    r.requester_id,r.someone_id,u.id, u.email, u.nickname, r.status, r.related_at, r.request_at \n" +
         "from Users u inner join RELATION r \n" +
-        "on (u.ID = r.SOMEONE_ID or u.ID = r.REQUESTER_ID) and u.id != ?1\n" +
+        "on u.id = ?1 and (u.ID = r.SOMEONE_ID or u.ID = r.REQUESTER_ID) \n" +
         "OFFSET ?2 ROWS\n" +
         "FETCH NEXT ?3 ROWS ONLY")
     List<Relation> findRelationByCondition(Long userId, int offset, int limit);
