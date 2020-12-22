@@ -1,6 +1,5 @@
 package com.huttchang.sns.post.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.huttchang.global.model.ACL;
 import com.huttchang.sns.post.dto.PostDto;
 import com.huttchang.sns.relation.domain.RelationUser;
@@ -60,7 +59,7 @@ public class Post {
 
     @Builder
     public Post(Long id, Long userId, long likeCnt, long commentCnt, Date createAt,
-                String description, List<PostComment> commentList, List<PostImage> imageList) {
+                String description, List<PostComment> commentList, List<PostImage> imageList, ACL acl) {
         this.id = id;
         this.userId = userId;
         this.likeCnt = likeCnt;
@@ -69,6 +68,7 @@ public class Post {
         this.description = description;
         this.commentList = commentList;
         this.imageList = imageList;
+        this.acl = acl;
     }
 
     public PostDto toDto() {
@@ -81,6 +81,7 @@ public class Post {
                 .description(getDescription())
                 .commentList(getCommentList())
                 .imageList(getImageList())
+                .acl(getAcl())
                 .build();
     }
 

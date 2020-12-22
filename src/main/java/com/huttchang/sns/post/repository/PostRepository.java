@@ -43,5 +43,38 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "FETCH NEXT ?3 ROWS ONLY")
     List<Post> findPostByRelationShip(Long userId, int offset, int limit);
 
+    @Query(nativeQuery = true,value =
+            "select\n" +
+                    "    p.ID,\n" +
+                    "    p.USER_ID,\n" +
+                    "    p.LIKE_CNT,\n" +
+                    "    p.COMMENT_CNT,\n" +
+                    "    p.CREATE_AT,\n" +
+                    "    p.DESCRIPTION,\n" +
+                    "    p.ACL\n" +
+                    "from post p\n" +
+                    "where p.acl = 0\n" +
+                    "and p.user_id = ?1\n" +
+                    "order by p.ID desc\n" +
+                    "OFFSET ?2 ROWS\n" +
+                    "FETCH NEXT ?3 ROWS ONLY")
+    List<Post> findPostNONERelationByUserId(Long userId, int offset, int limit);
+    @Query(nativeQuery = true,value =
+            "select\n" +
+                    "    p.ID,\n" +
+                    "    p.USER_ID,\n" +
+                    "    p.LIKE_CNT,\n" +
+                    "    p.COMMENT_CNT,\n" +
+                    "    p.CREATE_AT,\n" +
+                    "    p.DESCRIPTION,\n" +
+                    "    p.ACL\n" +
+                    "from post p\n" +
+                    "where p.user_id = ?1\n" +
+                    "order by p.ID desc\n" +
+                    "OFFSET ?2 ROWS\n" +
+                    "FETCH NEXT ?3 ROWS ONLY")
+    List<Post> findPostRelationByUserId(Long userId, int offset, int limit);
+
+
     //
 }

@@ -18,6 +18,8 @@ import com.huttchang.sns.post.repository.PostCommentRepository;
 import com.huttchang.sns.post.repository.PostImageRepository;
 import com.huttchang.sns.post.repository.PostLikeRepository;
 import com.huttchang.sns.post.repository.PostRepository;
+import com.huttchang.sns.relation.domain.RelationId;
+import com.huttchang.sns.relation.repository.RelationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -40,10 +42,21 @@ public class PostService {
     private final PostCommentRepository postCommentRepository;
     private final PostLikeRepository postLikeRepository;
     private final FileUploadService fileUploadService;
+    private final RelationRepository relationRepository;
     private final NotificationService notificationService;
 
     public List<Post> findPostByRelationShip(PostReq req) throws Exception {
         return postRepository.findPostByRelationShip(req.getUserId(), req.getOffset(), req.getLimit());
+    }
+
+    public List<Post> findPostByUserId(PostReq req, Long someoneId) throws Exception {
+        // 친구인경우
+        if (relationRepository.isRelation(req.getUserId(), someoneId)>0)
+            // 공개, 친구공개 까지 모두 보여줌
+            return postRepository.findPostRelationByUserId(someoneId, req.getOffset(), req.getLimit());
+        else
+            // 아닌 경우 전체 공개 건만 보여줌
+            return postRepository.findPostNONERelationByUserId(someoneId, req.getOffset(), req.getLimit());
     }
 
     @Transactional
@@ -59,7 +72,7 @@ public class PostService {
         // 이미지들의 정보를 담을 리스트 생성
         List<PostImage> imageList = new ArrayList<>();
         // 이미지 업로드
-        List<String> pathList = fileUploadService.upload(webPath, req.getImages());
+        List<String> pathList = fileUploadService.upload(webPath, "posts/"+createdPost.getId(), req.getImages());
         // 업로드 후 받은 결과이용하여 db삽입 데이터 준비
         pathList.forEach(path -> imageList.add(new PostImage(createdPost.getId(), path)));
         // 이미지 db insert

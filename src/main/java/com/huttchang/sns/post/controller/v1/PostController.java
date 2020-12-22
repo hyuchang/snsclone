@@ -40,6 +40,12 @@ public class PostController {
 //        return new ResponseBody(postService.findPost(req));
 //    }
 
+    @GetMapping("/users/{id}")
+    public ResponseBody<List<PostDto>> getPostsByUserId(@AuthenticationPrincipal User principal,@PathVariable Long id, PostReq req) throws Exception {
+        req.setUserId(principal.getId());
+        return new ResponseBody(postService.findPostByUserId(req, id));
+    }
+
     @GetMapping
     public ResponseBody<List<PostDto>> getPosts(@AuthenticationPrincipal User principal, PostReq req) throws Exception {
         req.setUserId(principal.getId());

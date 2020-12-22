@@ -1,5 +1,6 @@
 package com.huttchang.sns.post.dto;
 
+import com.huttchang.global.model.ACL;
 import com.huttchang.global.model.KeyValueData;
 import com.huttchang.global.model.Pagination;
 import com.huttchang.sns.post.domain.Post;
@@ -25,7 +26,7 @@ public class PostDto extends Pagination {
     private Long userId;
     private long likeCnt;
     private long commentCnt;
-    private Date createAt;
+    private Date createAt = new Date();
     @Setter
     @NotEmpty
     private String description;
@@ -33,9 +34,11 @@ public class PostDto extends Pagination {
     private List<KeyValueData<Long, String>> imageDatas;
     private List<PostComment> commentList;
     private List<PostImage> imageList;
+    @Setter
+    private ACL acl;
 
     @Builder
-    public PostDto(Long id, Long userId, long likeCnt, long commentCnt, Date createAt, @NotEmpty String description, List<KeyValueData<Long, String>> imageDatas, List<PostComment> commentList, List<PostImage> imageList) {
+    public PostDto(Long id, Long userId, long likeCnt, long commentCnt, Date createAt, @NotEmpty String description, List<KeyValueData<Long, String>> imageDatas, List<PostComment> commentList, List<PostImage> imageList, ACL acl) {
         this.id = id;
         this.userId = userId;
         this.likeCnt = likeCnt;
@@ -45,6 +48,7 @@ public class PostDto extends Pagination {
         this.imageDatas = imageDatas;
         this.commentList = commentList;
         this.imageList = imageList;
+        this.acl = acl;
     }
 
     public Post toEntity(){
@@ -55,6 +59,7 @@ public class PostDto extends Pagination {
                 .commentCnt(getCommentCnt())
                 .createAt(getCreateAt())
                 .description(getDescription())
+                .acl(getAcl())
                 .build();
     }
 

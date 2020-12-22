@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UploadService {
 
-    String upload(String uploadPath, MultipartFile file) throws Exception;
+    String upload(String uploadPath, String functionPath, MultipartFile file) throws Exception;
 
-    List<String> upload(String uploadPath, List<MultipartFile> files) throws Exception;
+    List<String> upload(String uploadPath, String functionPath, List<MultipartFile> files) throws Exception;
 }
